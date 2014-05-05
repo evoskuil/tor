@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup Label="Globals">
+    <_PropertySheetDisplayName>Tor Common Settings</_PropertySheetDisplayName>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+  </PropertyGroup>
+
+  <!-- Configuration -->
+  
+  <ItemDefinitionGroup>
+    <PreBuildEvent>
+      <Command>
+        copy $(ProjectDir)..\..\or_sha1.i $(ProjectDir)..\..\..\..\src\or\
+        copy $(ProjectDir)..\..\common_sha1.i $(ProjectDir)..\..\..\..\src\common\
+        copy $(ProjectDir)..\..\orconfig.h $(ProjectDir)..\..\..\..\src\common\
+      </Command>
+    </PreBuildEvent>      
+    <ClCompile>
+      <!-- Tor does not support NDEBUG builds. -->
+      <!-- For a static build, OpenSSL must be built with OPENSSL_NO_DYNAMIC_ENGINE, but NuGet version is not. -->
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\..\..\libevent\include\;$(ProjectDir)..\..\..\..\..\libevent\WIN32-Code\nmake\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\..\src\;$(ProjectDir)..\..\..\..\src\common\;$(ProjectDir)..\..\..\..\src\or\;$(ProjectDir)..\..\..\..\src\ext\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <EnablePREfast>false</EnablePREfast>
+      <PreprocessorDefinitions>inline=__inline;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+
+  <!-- Dependencies -->
+
+  <PropertyGroup Condition="$(Configuration.IndexOf('DEXE')) != -1">
+    <Linkage-openssl>dynamic</Linkage-openssl>
+    <Linkage-zlib>dynamic</Linkage-zlib>
+  </PropertyGroup>
+  <PropertyGroup Condition="$(Configuration.IndexOf('LEXE')) != -1">
+    <Linkage-openssl>ltcg</Linkage-openssl>
+    <Linkage-zlib>ltcg</Linkage-zlib>
+  </PropertyGroup>
+  <PropertyGroup Condition="$(Configuration.IndexOf('SEXE')) != -1">
+    <Linkage-openssl>static</Linkage-openssl>
+    <Linkage-zlib>static</Linkage-zlib>
+  </PropertyGroup>
+
+  <!-- Messages -->
+
+  <Target Name="LinkageInfo" BeforeTargets="PrepareForBuild">
+    <Message Text="Linkage-openssl   : $(Linkage-openssl)" Importance="high"/>
+    <Message Text="Linkage-zlib      : $(Linkage-zlib)" Importance="high"/>
+  </Target>
+  
+  <!-- Messages -->
+
+  <Target Name="CustomInfo" BeforeTargets="PrepareForBuild">
+    <Message Text="Will copy $(ProjectDir)..\..\or_sha1.i -&gt; $(ProjectDir)..\..\..\..\src\or\or_sha1.i" Importance="high"/>
+    <Message Text="Will copy $(ProjectDir)..\..\common_sha1.i -&gt; $(ProjectDir)..\..\..\..\src\common\common_sha1.i" Importance="high"/>
+    <Message Text="Will copy $(ProjectDir)..\..\orconfig.h -&gt; $(ProjectDir)..\..\..\..\src\common\orconfig.h" Importance="high"/>
+  </Target>  
+
+</Project>
