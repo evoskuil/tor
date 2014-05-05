@@ -23,6 +23,10 @@
 #endif
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
+#else if defined(_WIN32)
+#include <io.h>
+#define STDOUT_FILENO 1 
+#define STDERR_FILENO 2
 #endif
 #ifdef HAVE_SYS_TYPES_H
 #include <sys/types.h>
@@ -483,6 +487,8 @@ tor_log_err_sigsafe(const char *m, ...)
   timebuf[0] = now < 0 ? '-' : ' ';
   if (now < 0) now = -now;
   timebuf[1] = '\0';
+
+  // warning C4244: 'function' : conversion from 'time_t' to 'unsigned long', possible loss of data (x86)
   format_dec_number_sigsafe(now, timebuf+1, sizeof(timebuf)-1);
   tor_log_err_sigsafe_write("\n=========================================="
                              "================== T=");

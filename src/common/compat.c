@@ -27,6 +27,7 @@
 #include "compat.h"
 
 #ifdef _WIN32
+#include <io.h>
 #include <process.h>
 #include <windows.h>
 #include <sys/locking.h>
@@ -121,12 +122,15 @@
 #include "address.h"
 #include "sandbox.h"
 
-/* Inline the strl functions if the platform doesn't have them. */
+/** Inline the strl functions if the platform doesn't have them.
+ * These are set in compat.h for _WIN32 so those are excluded here. */
+#ifndef _WIN32
 #ifndef HAVE_STRLCPY
 #include "strlcpy.c"
 #endif
 #ifndef HAVE_STRLCAT
 #include "strlcat.c"
+#endif
 #endif
 
 /** As open(path, flags, mode), but return an fd with the close-on-exec mode

@@ -97,6 +97,7 @@
 #include "eventdns.h"
 
 #ifdef _WIN32
+#include <io.h>
 #include <windows.h>
 #include <winsock2.h>
 #include <iphlpapi.h>
@@ -334,7 +335,7 @@ static int search_request_new(int type, const char *const name, int flags, evdns
 static void evdns_requests_pump_waiting_queue(void);
 static u16 transaction_id_pick(void);
 static struct evdns_request *request_new(int type, const char *name, int flags, evdns_callback_type callback, void *ptr);
-static void request_submit(struct evdns_request *req);
+static void request_submit(struct evdns_request *const req);
 
 static int server_request_free(struct server_request *req);
 static void server_request_free_answers(struct server_request *req);
@@ -388,7 +389,7 @@ debug_ntoa(u32 address)
 {
 	static char buf[32];
 	u32 a = ntohl(address);
-	snprintf(buf, sizeof(buf), "%d.%d.%d.%d",
+	tor_snprintf(buf, sizeof(buf), "%d.%d.%d.%d",
 			(int)(u8)((a>>24)&0xff),
 			(int)(u8)((a>>16)&0xff),
 			(int)(u8)((a>>8 )&0xff),
@@ -762,7 +763,7 @@ reply_handle(struct evdns_request *const req, u16 flags, u32 ttl, struct reply *
 			/* we regard these errors as marking a bad nameserver */
 			if (req->reissue_count < global_max_reissues) {
 				char msg[64];
-				snprintf(msg, sizeof(msg), "Bad response %d (%s)",
+				tor_snprintf(msg, sizeof(msg), "Bad response %d (%s)",
 						 error, evdns_err_to_string(error));
 				nameserver_failed(req->ns, msg);
 				if (!request_reissue(req)) return;
@@ -1705,7 +1706,7 @@ evdns_server_request_add_ptr_reply(struct evdns_server_request *req, struct in_a
 	assert(!(in && inaddr_name));
 	if (in) {
 		a = ntohl(in->s_addr);
-		snprintf(buf, sizeof(buf), "%d.%d.%d.%d.in-addr.arpa",
+		tor_snprintf(buf, sizeof(buf), "%d.%d.%d.%d.in-addr.arpa",
 				(int)(u8)((a	)&0xff),
 				(int)(u8)((a>>8 )&0xff),
 				(int)(u8)((a>>16)&0xff),
@@ -2638,7 +2639,7 @@ int evdns_resolve_reverse(const struct in_addr *in, int flags, evdns_callback_ty
 	u32 a;
 	assert(in);
 	a = ntohl(in->s_addr);
-	snprintf(buf, sizeof(buf), "%d.%d.%d.%d.in-addr.arpa",
+	tor_snprintf(buf, sizeof(buf), "%d.%d.%d.%d.in-addr.arpa",
 			(int)(u8)((a	)&0xff),
 			(int)(u8)((a>>8 )&0xff),
 			(int)(u8)((a>>16)&0xff),
@@ -3161,7 +3162,7 @@ load_nameservers_with_getnetworkparams(void)
 		status = -1;
 		goto done;
 	}
-	if (!(fn = (GetNetworkParams_fn_t) GetProcAddress(handle, TEXT("GetNetworkParams")))) {
+	if (!(fn = (GetNetworkParams_fn_t) GetProcAddress(handle, "GetNetworkParams"))) {
 		evdns_log(EVDNS_LOG_WARN, "Could not get address of function.");
 		/* same as above */
 		status = -1;
@@ -3240,7 +3241,7 @@ config_nameserver_from_reg_key(HKEY key, const TCHAR *subkey)
 	if (RegQueryValueEx(key, subkey, 0, &type, (LPBYTE)buf, &bufsz)
 		== ERROR_SUCCESS && bufsz > 1) {
 		wcstombs(ansibuf,(wchar_t*)buf,MAX_PATH);/*XXXX UNICODE */
-		abuf[MAX_PATH-1] = '\0';
+		buf[MAX_PATH-1] = '\0';
 		status = evdns_nameserver_ip_add_line(ansibuf);
 	}
 

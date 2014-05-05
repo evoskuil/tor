@@ -21,6 +21,8 @@
 #ifdef _WIN32
 /* for the correct alias to struct stat */
 #include <sys/stat.h>
+/* ensure this is included before O_BINARY and O_TEXT are defined */
+#include <fcntl.h>
 #endif
 
 #ifndef O_BINARY
