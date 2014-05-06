@@ -4,7 +4,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{8AC8F31F-9342-4B70-8748-F47DCABF57F3}</ProjectGuid>
     <ProjectName>tor</ProjectName>
-    <RootNamespace>tor11</RootNamespace>
+    <RootNamespace>tor10</RootNamespace>
   </PropertyGroup>
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="DebugDEXE|Win32">
@@ -57,7 +57,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Configuration">
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v100</PlatformToolset>
     <ConfigurationType>Application</ConfigurationType>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -316,8 +316,18 @@
     <ResourceCompile Include="..\..\resource.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <Import Project="..\..\..\..\..\..\nuget\zlib.redist.1.2.8.6\build\native\zlib.redist.targets" Condition="Exists('..\..\..\..\..\..\nuget\zlib.redist.1.2.8.6\build\native\zlib.redist.targets')" />
-  <Import Project="..\..\..\..\..\..\nuget\zlib.1.2.8.6\build\native\zlib.targets" Condition="Exists('..\..\..\..\..\..\nuget\zlib.1.2.8.6\build\native\zlib.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\..\..\..\..\nuget\openssl.redist.1.0.1.24\build\native\openssl.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\..\..\nuget\openssl.redist.1.0.1.24\build\native\openssl.redist.targets'))" />
+    <Error Condition="!Exists('..\..\..\..\..\..\nuget\openssl.1.0.1.24\build\native\openssl.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\..\..\nuget\openssl.1.0.1.24\build\native\openssl.props'))" />
+    <Error Condition="!Exists('..\..\..\..\..\..\nuget\openssl.1.0.1.24\build\native\openssl.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\..\..\nuget\openssl.1.0.1.24\build\native\openssl.targets'))" />
+    <Error Condition="!Exists('..\..\..\..\..\..\nuget\zlib.redist.1.2.8.6\build\native\zlib.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\..\..\nuget\zlib.redist.1.2.8.6\build\native\zlib.redist.targets'))" />
+    <Error Condition="!Exists('..\..\..\..\..\..\nuget\zlib.1.2.8.6\build\native\zlib.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\..\..\nuget\zlib.1.2.8.6\build\native\zlib.targets'))" />
+  </Target>
   <Import Project="..\..\..\..\..\..\nuget\openssl.redist.1.0.1.24\build\native\openssl.redist.targets" Condition="Exists('..\..\..\..\..\..\nuget\openssl.redist.1.0.1.24\build\native\openssl.redist.targets')" />
   <Import Project="..\..\..\..\..\..\nuget\openssl.1.0.1.24\build\native\openssl.targets" Condition="Exists('..\..\..\..\..\..\nuget\openssl.1.0.1.24\build\native\openssl.targets')" />
+  <Import Project="..\..\..\..\..\..\nuget\zlib.redist.1.2.8.6\build\native\zlib.redist.targets" Condition="Exists('..\..\..\..\..\..\nuget\zlib.redist.1.2.8.6\build\native\zlib.redist.targets')" />
+  <Import Project="..\..\..\..\..\..\nuget\zlib.1.2.8.6\build\native\zlib.targets" Condition="Exists('..\..\..\..\..\..\nuget\zlib.1.2.8.6\build\native\zlib.targets')" />
 </Project>
