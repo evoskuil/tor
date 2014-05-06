@@ -50,6 +50,7 @@
 
 #include <string.h>
 #include "torint.h"
+#include "compat.h"
 
 typedef uint8_t u8;
 typedef int32_t s32;
@@ -236,7 +237,7 @@ static void freduce_degree(limb *output) {
 #endif
 
 /* return v / 2^26, using only shifts and adds. */
-static inline limb
+static INLINE limb
 div_by_2_26(const limb v)
 {
   /* High word of v; no shift needed*/
@@ -250,7 +251,7 @@ div_by_2_26(const limb v)
 }
 
 /* return v / (2^25), using only shifts and adds. */
-static inline limb
+static INLINE limb
 div_by_2_25(const limb v)
 {
   /* High word of v; no shift needed*/
@@ -263,7 +264,7 @@ div_by_2_25(const limb v)
   return (v + roundoff) >> 25;
 }
 
-static inline s32
+static INLINE s32
 div_s32_by_2_25(const s32 v)
 {
    const s32 roundoff = ((uint32_t)(v >> 31)) >> 7;

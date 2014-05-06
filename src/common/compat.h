@@ -102,8 +102,10 @@
 /* inline is __inline on windows. */
 #ifdef _WIN32
 #define INLINE __inline
+#define FORCE_INLINE __forceinline
 #else
 #define INLINE inline
+#define FORCE_INLINE __attribute__((always_inline))
 #endif
 
 /* Try to get a reasonable __func__ substitute in place. */
