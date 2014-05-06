@@ -30,6 +30,7 @@
 #include <event2/dns.h>
 #else
 #include <event.h>
+#include <evdns.h>
 #include "eventdns.h"
 #ifndef HAVE_EVDNS_SET_DEFAULT_OUTGOING_BIND_ADDRESS
 #define HAVE_EVDNS_SET_DEFAULT_OUTGOING_BIND_ADDRESS
@@ -322,7 +323,7 @@ int
 dns_reset(void)
 {
   const or_options_t *options = get_options();
-  if (! server_mode(options)) {
+  if (!server_mode(options)) {
 
     if (!the_evdns_base) {
       if (!(the_evdns_base = evdns_base_new(tor_libevent_get_base(), 0))) {
@@ -2166,6 +2167,17 @@ dump_dns_mem_usage(int severity)
   tor_log(severity, LD_MM, "Our DNS cache has %d entries.", hash_count);
   tor_log(severity, LD_MM, "Our DNS cache size is approximately %u bytes.",
       (unsigned)hash_mem);
+}
+
+/** Free resources in anticipation of shutdown. */
+void
+evdns_shutdown_wrapper(int fail_requests)
+{
+#ifdef HAVE_EVENT2_EVENT_H
+	evdns_base_free(the_evdns_base, fail_requests);
+#else
+	evdns_shutdown(fail_requests);
+#endif
 }
 
 #ifdef DEBUG_DNS_CACHE

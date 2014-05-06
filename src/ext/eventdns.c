@@ -41,6 +41,9 @@
 #include <sys/types.h>
 /* #define NDEBUG */
 
+/* Despite comments above, this must be excluded if HAVE_EVENT2_DNS_H is defined. */
+#ifndef HAVE_EVENT2_DNS_H
+
 #ifndef DNS_USE_CPU_CLOCK_FOR_ID
 #ifndef DNS_USE_GETTIMEOFDAY_FOR_ID
 #ifndef DNS_USE_OPENSSL_FOR_ID
@@ -3516,9 +3519,10 @@ main(int c, char **v) {
 }
 #endif
 
+#endif // HAVE_EVENT2_DNS_H
+
 /* Local Variables: */
 /* tab-width: 4 */
 /* c-basic-offset: 4 */
 /* indent-tabs-mode: t */
 /* End: */
-
