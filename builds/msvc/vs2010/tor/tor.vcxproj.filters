@@ -529,7 +529,6 @@
     <None Include="..\..\..\..\src\common\linux_syscalls.inc">
       <Filter>common\include</Filter>
     </None>
-    <None Include="packages.config" />
     <None Include="..\..\..\..\src\common\common_sha1.i">
       <Filter>common\digest</Filter>
     </None>
@@ -542,6 +541,7 @@
     <None Include="..\..\or_sha1.i">
       <Filter>copy</Filter>
     </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\..\resource.rc">

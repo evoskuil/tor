@@ -48,14 +48,6 @@
     <Linkage-openssl>static</Linkage-openssl>
     <Linkage-zlib>static</Linkage-zlib>
   </PropertyGroup>
-
-  <!-- Messages -->
-
-  <Target Name="LinkageInfo" BeforeTargets="PrepareForBuild">
-    <Message Text="Linkage-libevent   : $(Linkage-libevent)" Importance="high"/>
-    <Message Text="Linkage-openssl   : $(Linkage-openssl)" Importance="high"/>
-    <Message Text="Linkage-zlib      : $(Linkage-zlib)" Importance="high"/>
-  </Target>
   
   <!-- Messages -->
 
@@ -63,6 +55,12 @@
     <Message Text="Will copy $(ProjectDir)..\..\or_sha1.i -&gt; $(ProjectDir)..\..\..\..\src\or\or_sha1.i" Importance="high"/>
     <Message Text="Will copy $(ProjectDir)..\..\common_sha1.i -&gt; $(ProjectDir)..\..\..\..\src\common\common_sha1.i" Importance="high"/>
     <Message Text="Will copy $(ProjectDir)..\..\orconfig.h -&gt; $(ProjectDir)..\..\..\..\src\common\orconfig.h" Importance="high"/>
-  </Target>  
+  </Target>
+
+  <Target Name="LinkageInfo" BeforeTargets="PrepareForBuild">
+    <Message Text="Linkage-libevent   : $(Linkage-libevent)" Importance="high"/>
+    <Message Text="Linkage-openssl   : $(Linkage-openssl)" Importance="high"/>
+    <Message Text="Linkage-zlib      : $(Linkage-zlib)" Importance="high"/>
+  </Target>
 
 </Project>
