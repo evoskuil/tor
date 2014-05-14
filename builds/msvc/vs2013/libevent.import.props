@@ -19,34 +19,9 @@
       <PreprocessorDefinitions Condition="'$(Linkage-libevent)' == 'dynamic'">EVENT__NEED_DLLIMPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-    </Link>
-  </ItemDefinitionGroup>
-  
-  <ItemDefinitionGroup Condition="'$(Linkage-libevent)' == 'dynamic'">
-    <Link Condition="$(Configuration.IndexOf('Debug')) != -1">
-      <AdditionalDependencies>$(ProjectDir)..\..\..\..\..\libevent\bin\$(PlatformName)\Debug\libevent12\libevent.imp.lib;%(AdditionalDependencies)</AdditionalDependencies>
-    </Link>
-    <Link Condition="$(Configuration.IndexOf('Release')) != -1">
-      <AdditionalDependencies>$(ProjectDir)..\..\..\..\..\libevent\bin\$(PlatformName)\Release\libevent12\libevent.imp.lib;%(AdditionalDependencies)</AdditionalDependencies>
-    </Link>
-  </ItemDefinitionGroup>
-
-  <ItemDefinitionGroup Condition="'$(Linkage-libevent)' == 'static'">
-    <Link Condition="$(Configuration.IndexOf('Debug')) != -1">
-      <AdditionalDependencies>$(ProjectDir)..\..\..\..\..\libevent\bin\$(PlatformName)\Debug\libevent12\libevent.lib;%(AdditionalDependencies)</AdditionalDependencies>
-    </Link>
-    <Link Condition="$(Configuration.IndexOf('Release')) != -1">
-      <AdditionalDependencies>$(ProjectDir)..\..\..\..\..\libevent\bin\$(PlatformName)\Release\libevent12\libevent.lib;%(AdditionalDependencies)</AdditionalDependencies>
-    </Link>
-  </ItemDefinitionGroup>
-
-  <ItemDefinitionGroup Condition="'$(Linkage-libevent)' == 'ltcg'">
-    <Link Condition="$(Configuration.IndexOf('Debug')) != -1">
-      <AdditionalDependencies>$(ProjectDir)..\..\..\..\..\libevent\bin\$(PlatformName)\Debug\libevent12\libevent.ltcg.lib;%(AdditionalDependencies)</AdditionalDependencies>
-    </Link>
-    <Link Condition="$(Configuration.IndexOf('Release')) != -1">
-      <AdditionalDependencies>$(ProjectDir)..\..\..\..\..\libevent\bin\$(PlatformName)\Release\libevent12\libevent.ltcg.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ws2_32.lib;libevent.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories Condition="$(Configuration.IndexOf('Debug')) != -1">$(ProjectDir)..\..\..\..\..\libevent\bin\$(PlatformName)\Debug\$(PlatformToolset)\$(Linkage-libevent)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories Condition="$(Configuration.IndexOf('Release')) != -1">$(ProjectDir)..\..\..\..\..\libevent\bin\$(PlatformName)\Release\$(PlatformToolset)\$(Linkage-libevent)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
 
@@ -54,15 +29,15 @@
 
   <Target Name="Linkage-libevent-dynamic" AfterTargets="AfterBuild" Condition="'$(Linkage-libevent)' == 'dynamic'">
     <Copy Condition="$(Configuration.IndexOf('Debug')) != -1"
-          SourceFiles="$(ProjectDir)..\..\..\..\..\libevent\bin\$(PlatformName)\Debug\libevent12\libevent.dll"
+          SourceFiles="$(ProjectDir)..\..\..\..\..\libevent\bin\$(PlatformName)\Debug\$(PlatformToolset)\dynamic\libevent.dll"
           DestinationFiles="$(TargetDir)libevent.dll"
           SkipUnchangedFiles="true" />
     <Copy Condition="$(Configuration.IndexOf('Debug')) != -1"
-          SourceFiles="$(ProjectDir)..\..\..\..\..\libevent\bin\$(PlatformName)\Debug\libevent12\libevent.pdb"
+          SourceFiles="$(ProjectDir)..\..\..\..\..\libevent\bin\$(PlatformName)\Debug\$(PlatformToolset)\dynamic\libevent.pdb"
           DestinationFiles="$(TargetDir)libevent.pdb"
           SkipUnchangedFiles="true" />
     <Copy Condition="$(Configuration.IndexOf('Release')) != -1"
-          SourceFiles="$(ProjectDir)..\..\..\..\..\libevent\bin\$(PlatformName)\Release\libevent12\libevent.dll"
+          SourceFiles="$(ProjectDir)..\..\..\..\..\libevent\bin\$(PlatformName)\Release\$(PlatformToolset)\dynamic\libevent.dll"
           DestinationFiles="$(TargetDir)libevent.dll"
           SkipUnchangedFiles="true" />
   </Target>

@@ -12,15 +12,15 @@
   <ItemDefinitionGroup>
     <PreBuildEvent>
       <Command>
-        copy $(ProjectDir)..\..\or_sha1.i $(ProjectDir)..\..\..\..\src\or\
-        copy $(ProjectDir)..\..\common_sha1.i $(ProjectDir)..\..\..\..\src\common\
-        copy $(ProjectDir)..\..\orconfig.h $(ProjectDir)..\..\..\..\src\common\
+        copy $(BuildRoot)or_sha1.i $(RepoRoot)src\or\
+        copy $(BuildRoot)common_sha1.i $(RepoRoot)src\common\
+        copy $(BuildRoot)orconfig.h $(RepoRoot)src\common\
       </Command>
     </PreBuildEvent>      
     <ClCompile>
       <!-- Tor does not support NDEBUG builds. -->
-      <!-- For a static build, OpenSSL must be built with OPENSSL_NO_DYNAMIC_ENGINE, but NuGet version is not. -->
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\..\src\;$(ProjectDir)..\..\..\..\src\common\;$(ProjectDir)..\..\..\..\src\or\;$(ProjectDir)..\..\..\..\src\ext\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <!-- For a static build, OpenSSL must be built with OPENSSL_NO_DYNAMIC_ENGINE -->
+      <AdditionalIncludeDirectories>$(RepoRoot)src\;$(RepoRoot)src\common\;$(RepoRoot)src\or\;$(RepoRoot)src\ext\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <EnablePREfast>false</EnablePREfast>
       <PreprocessorDefinitions>_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -32,29 +32,29 @@
   <ImportGroup Label="PropertySheets">
     <Import Project="$(SolutionDir)libevent.import.props" />
   </ImportGroup>
-
-  <PropertyGroup Condition="$(Configuration.IndexOf('DEXE')) != -1">
-    <Linkage-libevent>dynamic</Linkage-libevent>
-    <Linkage-openssl>dynamic</Linkage-openssl>
-    <Linkage-zlib>dynamic</Linkage-zlib>
+  
+  <PropertyGroup Condition="'$(DefaultLinkage)' == 'dynamic'">
+    <Linkage-libevent>$(DefaultLinkage)</Linkage-libevent>
+    <Linkage-openssl>$(DefaultLinkage)</Linkage-openssl>
+    <Linkage-zlib>$(DefaultLinkage)</Linkage-zlib>
   </PropertyGroup>
-  <PropertyGroup Condition="$(Configuration.IndexOf('LEXE')) != -1">
-    <Linkage-libevent>ltcg</Linkage-libevent>
-    <Linkage-openssl>ltcg</Linkage-openssl>
-    <Linkage-zlib>ltcg</Linkage-zlib>
-  </PropertyGroup>
-  <PropertyGroup Condition="$(Configuration.IndexOf('SEXE')) != -1">
-    <Linkage-libevent>static</Linkage-libevent>
+  <PropertyGroup Condition="'$(DefaultLinkage)' == 'ltcg'">
+    <Linkage-libevent>$(DefaultLinkage)</Linkage-libevent>
     <Linkage-openssl>static</Linkage-openssl>
-    <Linkage-zlib>static</Linkage-zlib>
+    <Linkage-zlib>$(DefaultLinkage)</Linkage-zlib>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(DefaultLinkage)' == 'static'">
+    <Linkage-libevent>$(DefaultLinkage)</Linkage-libevent>
+    <Linkage-openssl>$(DefaultLinkage)</Linkage-openssl>
+    <Linkage-zlib>$(DefaultLinkage)</Linkage-zlib>
   </PropertyGroup>
   
   <!-- Messages -->
 
   <Target Name="CustomInfo" BeforeTargets="PrepareForBuild">
-    <Message Text="Will copy $(ProjectDir)..\..\or_sha1.i -&gt; $(ProjectDir)..\..\..\..\src\or\or_sha1.i" Importance="high"/>
-    <Message Text="Will copy $(ProjectDir)..\..\common_sha1.i -&gt; $(ProjectDir)..\..\..\..\src\common\common_sha1.i" Importance="high"/>
-    <Message Text="Will copy $(ProjectDir)..\..\orconfig.h -&gt; $(ProjectDir)..\..\..\..\src\common\orconfig.h" Importance="high"/>
+    <Message Text="Will copy $(BuildRoot)or_sha1.i -&gt; $(RepoRoot)src\or\or_sha1.i" Importance="high"/>
+    <Message Text="Will copy $(BuildRoot)common_sha1.i -&gt; $(RepoRoot)src\common\common_sha1.i" Importance="high"/>
+    <Message Text="Will copy $(BuildRoot)orconfig.h -&gt; $(RepoRoot)src\common\orconfig.h" Importance="high"/>
   </Target>
 
   <Target Name="LinkageInfo" BeforeTargets="PrepareForBuild">
