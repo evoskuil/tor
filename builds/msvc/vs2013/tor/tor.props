@@ -34,19 +34,19 @@
   </ImportGroup>
   
   <PropertyGroup Condition="'$(DefaultLinkage)' == 'dynamic'">
-    <Linkage-libevent>$(DefaultLinkage)</Linkage-libevent>
-    <Linkage-openssl>$(DefaultLinkage)</Linkage-openssl>
-    <Linkage-zlib>$(DefaultLinkage)</Linkage-zlib>
+    <Linkage-libevent>dynamic</Linkage-libevent>
+    <Linkage-openssl>dynamic</Linkage-openssl>
+    <Linkage-zlib>dynamic</Linkage-zlib>
   </PropertyGroup>
   <PropertyGroup Condition="'$(DefaultLinkage)' == 'ltcg'">
-    <Linkage-libevent>$(DefaultLinkage)</Linkage-libevent>
+    <Linkage-libevent>ltcg</Linkage-libevent>
     <Linkage-openssl>static</Linkage-openssl>
-    <Linkage-zlib>$(DefaultLinkage)</Linkage-zlib>
+    <Linkage-zlib>ltcg</Linkage-zlib>
   </PropertyGroup>
   <PropertyGroup Condition="'$(DefaultLinkage)' == 'static'">
-    <Linkage-libevent>$(DefaultLinkage)</Linkage-libevent>
-    <Linkage-openssl>$(DefaultLinkage)</Linkage-openssl>
-    <Linkage-zlib>$(DefaultLinkage)</Linkage-zlib>
+    <Linkage-libevent>static</Linkage-libevent>
+    <Linkage-openssl>static</Linkage-openssl>
+    <Linkage-zlib>static</Linkage-zlib>
   </PropertyGroup>
   
   <!-- Messages -->
