@@ -2,7 +2,7 @@
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Label="Globals">
     <ConfigurationType>Application</ConfigurationType>
-    <NuGetPackageImportStamp>bdc3d534</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>116ff535</NuGetPackageImportStamp>
     <PlatformToolset>v120</PlatformToolset>
     <ProjectGuid>{8AC8F31F-9342-4B70-8748-F47DCABF57F3}</ProjectGuid>
     <ProjectName>tor</ProjectName>
@@ -249,12 +249,12 @@
   <ItemGroup>
     <ResourceCompile Include="..\..\resource.rc" />
   </ItemGroup>
+  <Import Project="..\..\..\..\..\..\nuget\openssl_no-asm_vc120.1.0.1.703\build\native\openssl_no-asm_vc120.targets" Condition="Exists('..\..\..\..\..\..\nuget\openssl_no-asm_vc120.1.0.1.703\build\native\openssl_no-asm_vc120.targets')" />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\..\..\..\..\..\nuget\openssl_no-asm_vc120.1.0.1.700\build\native\openssl_no-asm_vc120.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\..\..\nuget\openssl_no-asm_vc120.1.0.1.700\build\native\openssl_no-asm_vc120.targets'))" />
+    <Error Condition="!Exists('..\..\..\..\..\..\nuget\openssl_no-asm_vc120.1.0.1.703\build\native\openssl_no-asm_vc120.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\..\..\nuget\openssl_no-asm_vc120.1.0.1.703\build\native\openssl_no-asm_vc120.targets'))" />
   </Target>
-  <Import Project="..\..\..\..\..\..\nuget\openssl_no-asm_vc120.1.0.1.700\build\native\openssl_no-asm_vc120.targets" Condition="Exists('..\..\..\..\..\..\nuget\openssl_no-asm_vc120.1.0.1.700\build\native\openssl_no-asm_vc120.targets')" />
 </Project>
