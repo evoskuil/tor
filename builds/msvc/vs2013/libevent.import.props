@@ -19,7 +19,7 @@
       <PreprocessorDefinitions Condition="'$(Linkage-libevent)' == 'dynamic'">EVENT__NEED_DLLIMPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>ws2_32.lib;libevent.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies Condition="'$(Linkage-libevent)' != ''">ws2_32.lib;libevent.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories Condition="$(Configuration.IndexOf('Debug')) != -1">$(ProjectDir)..\..\..\..\..\libevent\bin\$(PlatformName)\Debug\$(PlatformToolset)\$(Linkage-libevent)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalLibraryDirectories Condition="$(Configuration.IndexOf('Release')) != -1">$(ProjectDir)..\..\..\..\..\libevent\bin\$(PlatformName)\Release\$(PlatformToolset)\$(Linkage-libevent)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
